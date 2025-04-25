@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GitHub Fork Checker</title>
 
-  <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#0077ff" />
-  <link rel="manifest" href="/manifest.json" />
   <link rel="icon" href="favicon.ico" />
 
   <style>
@@ -33,7 +31,6 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      transition: all 0.3s ease;
     }
 
     .container {
@@ -97,14 +94,12 @@
       font-size: 15px;
       text-align: center;
       min-height: 30px;
-      transition: all 0.3s ease;
     }
 
     #repoDetails {
       margin-top: 15px;
       text-align: center;
       display: none;
-      animation: fadeIn 0.4s ease-in;
     }
 
     #repoDetails img {
@@ -120,14 +115,9 @@
       background: #28a745;
     }
 
-    #shareBtn {
-      margin-top: 10px;
-      background: #ff595e;
-    }
-
     #deployToHerokuBtn {
-      margin-top: 15px;
-      background: #3e64ff;
+      margin-top: 10px;
+      background: #6f42c1;
     }
 
     .footer {
@@ -143,22 +133,9 @@
       color: gray;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     @media (max-width: 600px) {
       .container {
         padding: 20px;
-      }
-
-      h2 {
-        font-size: 20px;
-      }
-
-      input, button {
-        font-size: 14px;
       }
     }
   </style>
@@ -173,8 +150,7 @@
     <a id="forkLink" href="#" target="_blank">
       <button id="forkButton">Fork this Repository</button>
     </a>
-    <button id="shareBtn" onclick="shareResult()">Share Result</button>
-    <button id="deployToHerokuBtn" onclick="deployToHeroku()">Deploy to Heroku</button>
+    <button id="deployToHerokuBtn" onclick="deployToHeroku()">Deploy BMB-XMD to Heroku</button>
     <div id="historyList"></div>
     <div class="footer">© 2025 Mr Tech Ke | Built by Amon</div>
   </div>
@@ -185,11 +161,7 @@
     const repoDetails = document.getElementById("repoDetails");
     const forkBtn = document.getElementById("forkButton");
     const forkLink = document.getElementById("forkLink");
-    const shareBtn = document.getElementById("shareBtn");
     const historyList = document.getElementById("historyList");
-    const deployToHerokuBtn = document.getElementById("deployToHerokuBtn");
-
-    let currentRepoUrl = ''; // to store the currently checked GitHub URL
 
     function isValidGitHubRepo(url) {
       const regex = /^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)\/?$/;
@@ -200,7 +172,6 @@
       const input = repoInput.value.trim();
       const parts = isValidGitHubRepo(input);
       forkBtn.style.display = "none";
-      shareBtn.style.display = "none";
       result.innerHTML = `<div class="spinner"></div>`;
 
       if (!parts) {
@@ -237,10 +208,7 @@
           forkBtn.style.display = "block";
         }
 
-        shareBtn.style.display = "block";
         updateHistory(`${user}/${repo}`);
-        currentRepoUrl = input; // Save the GitHub link
-
       } catch (err) {
         result.style.color = "red";
         result.innerText = "Error fetching repository.";
@@ -264,39 +232,14 @@
       }
     }
 
-    function shareResult() {
-      const resultText = result.innerText;
-      if (navigator.share) {
-        navigator.share({
-          title: "GitHub Fork Checker Result",
-          text: resultText,
-          url: window.location.href
-        }).catch(console.error);
-      } else {
-        navigator.clipboard.writeText(resultText);
-        alert("Result copied to clipboard!");
-      }
-    }
-
     function deployToHeroku() {
-      if (currentRepoUrl) {
-        const herokuDeployUrl = `https://heroku.com/deploy?template=${encodeURIComponent(currentRepoUrl)}`;
-        window.open(herokuDeployUrl, '_blank');
-      } else {
-        alert('Please check a valid repository first.');
-      }
+      const herokuDeployUrl = `https://heroku.com/deploy?template=https://github.com/bmbxmd/B.M.B-XMD`;
+      window.open(herokuDeployUrl, '_blank');
     }
 
-    window.onload = async () => {
+    window.onload = () => {
       renderHistory();
-      try {
-        const text = await navigator.clipboard.readText();
-        if (isValidGitHubRepo(text)) {
-          repoInput.value = text;
-          checkRepo();
-        }
-      } catch (e) {}
-    }
+    };
   </script>
 </body>
 </html>
