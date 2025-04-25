@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitHub Fork Checker</title>
+  <title>Deploy BMB-XMD & GitHub Fork Checker</title>
 
   <meta name="theme-color" content="#0077ff" />
   <link rel="icon" href="favicon.ico" />
@@ -28,9 +28,10 @@
       color: var(--text);
       font-family: "Segoe UI", sans-serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      padding: 30px 10px;
     }
 
     .container {
@@ -38,11 +39,12 @@
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-      width: 90%;
+      width: 100%;
       max-width: 500px;
+      margin-bottom: 40px;
     }
 
-    h2 {
+    h1, h2 {
       text-align: center;
       margin-bottom: 20px;
     }
@@ -133,6 +135,12 @@
       color: gray;
     }
 
+    .deploy-section img {
+      width: 200px;
+      margin: 20px auto;
+      display: block;
+    }
+
     @media (max-width: 600px) {
       .container {
         padding: 20px;
@@ -141,6 +149,8 @@
   </style>
 </head>
 <body>
+
+  <!-- GitHub Fork Checker -->
   <div class="container">
     <h2>GitHub Fork Checker</h2>
     <input type="text" id="repoUrl" placeholder="Paste GitHub Repo URL">
@@ -150,10 +160,19 @@
     <a id="forkLink" href="#" target="_blank">
       <button id="forkButton">Fork this Repository</button>
     </a>
-    <button id="deployToHerokuBtn" onclick="deployToHeroku()">Deploy BMB-XMD to Heroku</button>
     <div id="historyList"></div>
-    <div class="footer">© 2025 Mr Tech Ke | Built by Amon</div>
   </div>
+
+  <!-- Deploy to Heroku -->
+  <div class="container deploy-section">
+    <h1>Deploy BMB-XMD to Heroku</h1>
+    <a href="https://dashboard.heroku.com/new?template=https://github.com/bmbxmd/B.M.B-XMD" target="_blank">
+      <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku">
+    </a>
+    <button onclick="deployToHeroku()">Deploy Now</button>
+  </div>
+
+  <div class="footer">© 2025 Mr Tech Ke | Built by Amon</div>
 
   <script>
     const repoInput = document.getElementById("repoUrl");
